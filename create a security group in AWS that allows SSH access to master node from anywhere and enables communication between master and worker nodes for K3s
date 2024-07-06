@@ -1,0 +1,59 @@
+To create a security group in AWS that allows SSH access to master node from anywhere and enables communication between master and worker nodes for K3s, follow these steps:
+
+Steps to Create and Configure the Security Group:
+Log in to the AWS Management Console.
+
+Navigate to the EC2 Dashboard.
+
+Click on "Security Groups" under the "Network & Security" section.
+
+Create a new Security Group:
+
+Click on the "Create security group" button.
+Set the Name and Description for your security group.
+VPC: Select the VPC that your instances are part of.
+Add Inbound Rules:
+
+Rule 1:
+Type: SSH
+Protocol: TCP
+Port Range: 22
+Source: 0.0.0.0/0
+Description: Allow SSH access from anywhere.
+Rule 2:
+Type: Custom TCP
+Protocol: TCP
+Port Range: 6443
+Source: Custom (Your VPC CIDR block or the IP range that includes your instances, e.g., 10.0.0.0/16)
+Description: Allow K3s communication on the API server port.
+Rule 3:
+Type: All Traffic
+Protocol: All
+Port Range: All
+Source: Custom (Use the IP range that includes your instances, e.g., 10.0.0.0/16)
+Description: Allow all traffic between instances within the same VPC.
+Add Outbound Rules (usually default to allow all):
+
+Rule 1:
+Type: All traffic
+Protocol: All
+Port Range: All
+Destination: 0.0.0.0/0
+Description: Allow all outbound traffic.
+Create the Security Group by clicking the "Create security group" button.
+
+Attach the Security Group to Your Instances:
+
+Go to the "Instances" section in the EC2 Dashboard.
+Select your master and worker instances.
+Click on "Actions" -> "Networking" -> "Change Security Groups".
+Select the newly created security group and apply the changes.
+Summary of Security Group Rules:
+Inbound Rules:
+
+Allow SSH (port 22) from anywhere (0.0.0.0/0).
+Allow K3s API communication on port 6443 within the VPC.
+Allow all traffic within the VPC (for node communication).
+Outbound Rules:
+
+Allow all traffic to anywhere (default setting).
