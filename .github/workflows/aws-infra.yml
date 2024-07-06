@@ -9,14 +9,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout Code
-       uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-       -name: Set up python
+      - name: Set up python
         uses: actions/setup-python@v2
         with: 
           python-version: '3.x'
-       -name: Install dependencies   
+      - name: Install dependencies   
           run: 
             python -m venv venv
             source venv/bin/activate
